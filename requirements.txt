@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+openai
+sqlalchemy
+psycopg2-binary
+faiss-cpu
+requests
+pandas
+netCDF4
