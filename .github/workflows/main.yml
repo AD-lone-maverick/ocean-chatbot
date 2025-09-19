@@ -1,0 +1,35 @@
+name: CI / Build / Deploy
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - run: npm ci
+        working-directory: ./frontend
+      - run: npm run build
+        working-directory: ./frontend
+
+  build-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - run: pip install -r backend/requirements.txt
+      - run: python -c "import fastapi, uvicorn"
+
+  deploy-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render deploy
+        run: echo "Render deploy step - configure with RENDER_API_KEY & RENDER_SERVICE_ID"
